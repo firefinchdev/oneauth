@@ -21,16 +21,16 @@ router.get('/me',
                 for (ia of includedAccounts) {
                     switch (ia) {
                         case 'facebook':
-                            includes.push({model: models.UserFacebook, attributes:{exclude:['accessToken']}})
+                            includes.push({model: models.UserFacebook, attributes: {exclude: ['accessToken']}})
                             break
                         case 'twitter':
-                            includes.push({model: models.UserTwitter, attributes:{exclude:['token']}})
+                            includes.push({model: models.UserTwitter, attributes: {exclude: ['token']}})
                             break
                         case 'github':
-                            includes.push({model: models.UserGithub, attributes:{exclude:['token']}})
+                            includes.push({model: models.UserGithub, attributes: {exclude: ['token']}})
                             break
                         case 'google':
-                            includes.push({model: models.UserGoogle, attributes:{exclude:['token']}})
+                            includes.push({model: models.UserGoogle, attributes: {exclude: ['token']}})
                             break
                         case 'lms':
                             includes.push(models.UserLms)
@@ -63,24 +63,25 @@ router.get('/me/address',
     passport.authenticate(['bearer', 'session']),
     function (req, res) {
         if (req.user) {
-            let includes = [{model: models.Demographic,
-            include: [models.Address]
+            let includes = [{
+                model: models.Demographic,
+                include: [models.Address]
             }]
             if (req.query.include) {
                 let includedAccounts = req.query.include.split(',')
                 for (ia of includedAccounts) {
                     switch (ia) {
                         case 'facebook':
-                            includes.push({model: models.UserFacebook, attributes:{exclude:['accessToken']}})
+                            includes.push({model: models.UserFacebook, attributes: {exclude: ['accessToken']}})
                             break
                         case 'twitter':
-                            includes.push({model: models.UserTwitter, attributes:{exclude:['token']}})
+                            includes.push({model: models.UserTwitter, attributes: {exclude: ['token']}})
                             break
                         case 'github':
-                            includes.push({model: models.UserGithub, attributes:{exclude:['token']}})
+                            includes.push({model: models.UserGithub, attributes: {exclude: ['token']}})
                             break
                         case 'google':
-                            includes.push({model: models.UserGoogle, attributes:{exclude:['token']}})
+                            includes.push({model: models.UserGoogle, attributes: {exclude: ['token']}})
                             break
                         case 'lms':
                             includes.push(models.UserLms)

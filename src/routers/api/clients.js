@@ -47,7 +47,7 @@ router.post('/edit/:id', cel.ensureLoggedIn('/login'),
         let clientDomains = req.body.domain.replace(/ /g, '').split(';')
         let clientCallbacks = req.body.callback.replace(/ /g, '').split(';')
         let trustedClient = false
-        if(req.user.role === 'admin'){
+        if (req.user.role === 'admin') {
             trustedClient = req.body.trustedClient
         }
 
@@ -63,7 +63,7 @@ router.post('/edit/:id', cel.ensureLoggedIn('/login'),
             name: clientName,
             domain: clientDomains,
             callbackURL: clientCallbacks,
-            trusted:trustedClient
+            trusted: trustedClient
         }, {
             where: {id: clientId}
         }).then(function (client) {

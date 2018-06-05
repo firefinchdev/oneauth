@@ -72,7 +72,7 @@ router.post('/:id', cel.ensureLoggedIn('/login'), async function (req, res) {
                     countryId: req.body.countryId,
                     primary: req.body.primary === 'on'
                 },
-                { where: {id: addrId} }
+                {where: {id: addrId}}
             )
             return res.redirect(`/address/${addrId}`)
         })
