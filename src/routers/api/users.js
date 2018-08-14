@@ -9,7 +9,7 @@ const passport = require('../../passport/passporthandler')
 const models = require('../../db/models').models
 
 const Raven = require('raven');
-const { findUserById , findUserForTrustedClient, findAllUsersWithFilter, generateFilter} = require('../../controllers/user');
+const { findUserById , findUserForTrustedClient, findAllUsersWithFilter} = require('../../controllers/user');
 const { deleteAuthToken } = require('../../controllers/oauth');
 const  { findAllAddresses } = require('../../controllers/demographics');
 
@@ -23,11 +23,9 @@ router.get('/',
       }
     }
 
-    let whereObj = generateFilter(req.query)
-
     let trustedClient = req.client && req.client.trusted
     try {
-      let users = await findAllUsersWithFilter(trustedClient, whereObj);
+      let users = await findAllUsersWithFilter(trustedClient, req.query);
       if (!users) {
         throw new Error("User not found")
       }

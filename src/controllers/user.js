@@ -25,29 +25,29 @@ function findUserForTrustedClient(trustedClient, userId) {
 function findAllUsersWithFilter(trustedClient, filterArgs) {
   return User.findAll({
     attributes: trustedClient ? undefined : ["id", "username", "email", "firstname", "lastname", "mobile_number"],
-    where: filterArgs || {},
+    where: generateFilter(filterArgs) || {},
   });
 }
 
-function generateFilter(query) {
+function generateFilter(filterArgs) {
 
   let whereObj = {}
 
-  if (query.username) {
-    whereObj.username = query.username
+  if (filterArgs.username) {
+    whereObj.username = filterArgs.username
   }
-  if (query.firstname) {
+  if (filterArgs.firstname) {
     whereObj.firstname = {
-      $iLike: `${query.firstname}%`
+      $iLike: `${filterArgs.firstname}%`
     }
   }
-  if (query.lastname) {
+  if (filterArgs.lastname) {
     whereObj.lastname = {
-      $iLike: `${query.lastname}%`
+      $iLike: `${filterArgs.lastname}%`
     }
   }
-  if (query.email) {
-    let email = query.email
+  if (filterArgs.email) {
+    let email = filterArgs.email
     // email = email.split('@')
     // email[0] = email[0].split('').filter(c => !(c === '.')).join('')
     // email = email.join('@')
@@ -56,8 +56,8 @@ function generateFilter(query) {
     whereObj.email = sequelize.where(sequelize.fn('replace', sequelize.col('email'), '.', ''), sequelize.fn('replace', email, '.', ''))
 
   }
-  if (query.contact) {
-    let contact = query.contact
+  if (filterArgs.contact) {
+    let contact = filterArgs.contact
     if(/^\d+$/.test(contact)) {
       whereObj.mobile_number = {
         like: `%${contact}`
@@ -66,8 +66,8 @@ function generateFilter(query) {
         throw new Error("Invalid Phone Format")
     }
   }
-  if (query.verified) {
-    let verify = (query.verified === 'true')
+  if (filterArgs.verified) {
+    let verify = (filterArgs.verified === 'true')
     if (verify) {
       whereObj.verifiedemail = {
         $ne: null
@@ -85,6 +85,5 @@ module.exports = {
   findUserById,
   updateUser,
   findUserForTrustedClient,
-  findAllUsersWithFilter,
-  generateFilter
+  findAllUsersWithFilter
 };
