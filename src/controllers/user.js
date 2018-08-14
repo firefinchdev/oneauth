@@ -21,8 +21,16 @@ function findUserForTrustedClient(trustedClient, userId) {
   });
 }
 
+function findAllUsers(trustedClient, where) {
+  return User.findAll({
+    attributes: trustedClient ? undefined : ["id", "username", "email", "firstname", "lastname", "mobile_number"],
+    where: where || {},
+  });
+}
+
 module.exports = {
   findUserById,
   updateUser,
-  findUserForTrustedClient
+  findUserForTrustedClient,
+  findAllUsers
 };
