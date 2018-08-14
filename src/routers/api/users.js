@@ -9,7 +9,8 @@ const passport = require('../../passport/passporthandler')
 const models = require('../../db/models').models
 
 const Raven = require('raven');
-const { findUserById , findUserForTrustedClient, findAllUsers} = require('../../controllers/user');
+const sequelize = require('sequelize');
+const { findUserById , findUserForTrustedClient, findAllUsersWithFilter, generateFilter} = require('../../controllers/user');
 const { deleteAuthToken } = require('../../controllers/oauth');
 const  { findAllAddresses } = require('../../controllers/demographics');
 
@@ -194,11 +195,11 @@ router.get('/',
     //   }
     // }
 
-    let whereObj = generateWhere(req.query)
+    let whereObj = generateFilter(req.query)
 
     let trustedClient = req.client && req.client.trusted
     try {
-      let users = await findAllUsers(trustedClient, whereObj);
+      let users = await findAllUsersWithFilter(trustedClient, whereObj);
       if (!user) {
         throw new Error("User not found")
       }
@@ -211,55 +212,6 @@ router.get('/',
     }
   }
 )
-
-function generateWhere(query) {
-
-  let whereObj = {}
-
-  if (query.username) {
-    whereObj.username = query.username
-  }
-  if (query.firstname) {
-    whereObj.firstname = {
-      $iLike: `${query.firstname}%`
-    }
-  }
-  if (query.lastname) {
-    whereObj.lastname = {
-      $iLike: `${query.lastname}%`
-    }
-  }
-  if (query.email) {
-    let email = query.email
-    email = email.split['@']
-    email[0] = email[0].split('').filter(c => !(c === '.')).join('')
-    email = email.join('@')
-    whereObj.email = email
-  }
-  if (query.contact) {
-    let contact = query.contact
-    if(/^\d+$/.test(contact)) {
-      whereObj.contact = {
-        like: `%${contact}`
-      }
-    } else {
-
-    }
-  }
-  if (query.verified) {
-    let verify = (query.verified === 'true')
-    if (verify) {
-      whereObj.verifiedemail = {
-        $ne: null
-      }
-    } else {
-      whereObj.verifiedemail = {
-        $eq: null
-      }
-    }
-  }
-  return whereObj
-}
 
 
 
