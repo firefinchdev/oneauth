@@ -14,6 +14,35 @@ const { findUserById , findUserForTrustedClient, findAllUsersWithFilter, generat
 const { deleteAuthToken } = require('../../controllers/oauth');
 const  { findAllAddresses } = require('../../controllers/demographics');
 
+router.get('/',
+  passport.authenticate('bearer', {session: false}),
+  async function (req, res) {
+    // Send the user his own object if the token is user scoped
+    if (req.user && !req.authInfo.clientOnly && req.user.id) {
+      if (req.params.id == req.user.id) {
+        return res.send(req.user)
+      }
+    }
+
+    let whereObj = generateFilter(req.query)
+
+    let trustedClient = req.client && req.client.trusted
+    try {
+      let users = await findAllUsersWithFilter(trustedClient, whereObj);
+      if (!users) {
+        throw new Error("User not found")
+      }
+      if (!Array.isArray(users)) {
+        users = [users]
+      }
+      res.send(users)
+    } catch (error) {
+      res.send('Unknown user or unauthorized request')
+    }
+  }
+)
+
+
 router.get('/me',
     // Frontend clients can use this API via session (using the '.codingblocks.com' cookie)
     passport.authenticate(['bearer', 'session']),
@@ -185,33 +214,6 @@ router.get('/:id/address',
     }
 )
 
-router.get('/',
-  passport.authenticate('bearer', {session: false}),
-  async function (req, res) {
-    // Send the user his own object if the token is user scoped
-    // if (req.user && !req.authInfo.clientOnly && req.user.id) {
-    //   if (req.params.id == req.user.id) {
-    //     return res.send(req.user)
-    //   }
-    // }
-
-    let whereObj = generateFilter(req.query)
-
-    let trustedClient = req.client && req.client.trusted
-    try {
-      let users = await findAllUsersWithFilter(trustedClient, whereObj);
-      if (!user) {
-        throw new Error("User not found")
-      }
-      if (!Array.isArray(users)) {
-          users = [users]
-      }
-      res.send(users)
-    } catch (error) {
-      res.send('Unknown user or unauthorized request')
-    }
-  }
-)
 
 
 

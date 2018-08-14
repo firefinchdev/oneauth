@@ -57,11 +57,11 @@ function generateFilter(query) {
   if (query.contact) {
     let contact = query.contact
     if(/^\d+$/.test(contact)) {
-      whereObj.contact = {
+      whereObj.mobile_number = {
         like: `%${contact}`
       }
     } else {
-
+        throw new Error("Invalid Phone Format")
     }
   }
   if (query.verified) {
