@@ -48,11 +48,8 @@ function generateFilter(filterArgs) {
   }
   if (filterArgs.email) {
     let email = filterArgs.email
-    // email = email.split('@')
-    // email[0] = email[0].split('').filter(c => !(c === '.')).join('')
-    // email = email.join('@')
-    // console.log('FF', email)
-    // whereObj.email = email
+
+    //Testing if email has dots, i.e. ab.c@gmail.com is same as abc@gmail.com
     whereObj.email = sequelize.where(sequelize.fn('replace', sequelize.col('email'), '.', ''), sequelize.fn('replace', email, '.', ''))
 
   }
