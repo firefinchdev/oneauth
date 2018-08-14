@@ -1,4 +1,5 @@
 const { User } = require("../db/models").models;
+const sequelize = require('sequelize');
 
 function findUserById(id, includes) {
   return User.findOne({
@@ -47,11 +48,12 @@ function generateFilter(query) {
   }
   if (query.email) {
     let email = query.email
-    email = email.split['@']
-    email[0] = email[0].split('').filter(c => !(c === '.')).join('')
-    email = email.join('@')
-    whereObj.email = email
-    // whereObj.email = sequelize.where(sequelize.fn('replace', sequelize.col('email'), '.', ''), sequelize.fn('replace', email, '.', ''))
+    // email = email.split('@')
+    // email[0] = email[0].split('').filter(c => !(c === '.')).join('')
+    // email = email.join('@')
+    // console.log('FF', email)
+    // whereObj.email = email
+    whereObj.email = sequelize.where(sequelize.fn('replace', sequelize.col('email'), '.', ''), sequelize.fn('replace', email, '.', ''))
 
   }
   if (query.contact) {
