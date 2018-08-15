@@ -9,11 +9,20 @@ function deleteEventSubscription(id) {
   });
 }
 
+function findAllEventSubscription(id) {
+  return EventSubscription.findAll({
+    where: { 
+      clientId: id 
+    }
+  });
+}
+
 function createEventSubscriptionBulk (options) {
   return EventSubscription.bulkCreate (options)
 }
 
 module.exports = {
   createEventSubscriptionBulk,
-  deleteEventSubscription
+  deleteEventSubscription,
+  findAllEventSubscription
 };
