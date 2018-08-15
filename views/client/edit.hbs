@@ -17,108 +17,92 @@
                     </div>
                 </div>
 
-                <div class="row no-gutters align-items-center justify-content-between detail-row">
-                    <div class="label-input col-md-4 col-sm-3">CallBack Url</div>
-                    <input type="text" class="input-text col-8" placeholder="Callback URL" name="callback" value="{{client.clientCallbacks}}"/>
+                <div class="row justify-content-between">
+                    <div class="row no-gutters align-items-center justify-content-between detail-row">
+                        <div class="label-input col-md-4 col-sm-3">CallBack Url</div>
+                        <input type="text" class="input-text col-8" placeholder="Callback URL" name="callback" value="{{client.clientCallbacks}}"/>
+                    </div>
+
+                    <div class="row no-gutters align-items-center justify-content-between detail-row">
+                        <div class="label-input col-md-4 col-sm-3">Default Url</div>
+                        <input type="text" class="input-text col-8" placeholder="Default URL" name="defaulturl" value="{{client.clientdefaultURL}}"/>
+                    </div>
                 </div>
 
-                <div class="row no-gutters align-items-center justify-content-between detail-row">
-                    <div class="label-input col-md-4 col-sm-3">Default Url</div>
-                    <input type="text" class="input-text col-8" placeholder="Default URL" name="defaulturl" value="{{client.clientdefaultURL}}"/>
-                </div>
                 <div class="row no-gutters align-items-center justify-content-between detail-row">
                     <div class="label-input col-md-4 col-sm-3">Webhook Url</div>
                     <input type="url" class="input-text col-8" placeholder="Webhook URL" name="webhookurl" value="{{client.webhookURL}}"/>
                 </div>
                 {{#if client.trusted}}
                 {{#if client.webhookURL}}
-                    <div>
-                            <table>
-                                <tr>
-                                    <th>Users</th>
-                                    <th>Demographics</th>
-                                    <th>Addresses</th>
-                                    <th>Clients</th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span>
-                                            <input type="checkbox" name="c-user" value="{{eventSubscription.users.create}}">
-                                            CREATE
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span>
-                                            <input type="checkbox" name="c-demographic" value="{{eventSubscription.demographics.create}}">
-                                            CREATE
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span>
-                                            <input type="checkbox" name="c-address" value="{{eventSubscription.address.create}}">
-                                            CREATE
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span>
-                                            <input type="checkbox" name="c-client" value="{{eventSubscription.clients.create}}">
-                                            CREATE
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span>
-                                            <input type="checkbox" name="u-user" value="{{eventSubscription.users.update}}">
-                                            UPDATE
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span>
-                                            <input type="checkbox" name="u-demographic" value="{{eventSubscription.demographics.update}}">
-                                            UPDATE
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span>
-                                            <input type="checkbox" name="u-address" value="{{eventSubscription.address.update}}">
-                                            UPDATE
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span>
-                                            <input type="checkbox" name="u-client" value="{{eventSubscription.clients.update}}">
-                                            UPDATE
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span>
-                                            <input type="checkbox" name="d-user" value="{{eventSubscription.users.delete}}">
-                                            DELETE
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span>
-                                            <input type="checkbox" name="d-demographic" value="{{eventSubscription.demographics.delete}}">
-                                            DELETE
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span>
-                                            <input type="checkbox" name="d-address" value="{{eventSubscription.address.delete}}">
-                                            DELETE
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span>
-                                            <input type="checkbox" name="d-client" value="{{eventSubscription.clients.delete}}">
-                                            DELETE
-                                        </span>
-                                    </td>
-                                </tr>
-                            </table>
+                Manage Rights:
+                    <div class="row align-items-center justify-content-between pt-3">
+                        <div class="label-input col-md-4 col-sm-3">Users</div>
+                        <div class="col-8 row justify-content-between">
+                            <span>
+                                <input class="input-checkbox" type="checkbox" name="c-user" value="{{eventSubscription.users.create}}">
+                                CREATE
+                            </span>
+                            <span>
+                                <input class="input-checkbox" type="checkbox" name="u-user" value="{{eventSubscription.users.update}}">
+                                UPDATE
+                            </span>
+                            <span>
+                                <input class="input-checkbox" type="checkbox" name="d-user" value="{{eventSubscription.users.delete}}">
+                                DELETE
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row align-items-center justify-content-between pt-3">
+                        <div class="label-input col-md-4 col-sm-3">Demographics</div>
+                        <div class="col-8 row justify-content-between">
+                            <span>
+                                <input class="input-checkbox" type="checkbox" name="c-demographics" value="{{eventSubscription.users.create}}">
+                                CREATE
+                            </span>
+                            <span>
+                                <input class="input-checkbox" type="checkbox" name="u-demographics" value="{{eventSubscription.users.update}}">
+                                UPDATE
+                            </span>
+                            <span>
+                                <input class="input-checkbox" type="checkbox" name="d-demographics" value="{{eventSubscription.users.delete}}">
+                                DELETE
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row align-items-center justify-content-between pt-3">
+                        <div class="label-input col-md-4 col-sm-3">Addresses</div>
+                        <div class="col-8 row justify-content-between">
+                            <span>
+                                <input class="input-checkbox" type="checkbox" name="c-address" value="{{eventSubscription.users.create}}">
+                                CREATE
+                            </span>
+                            <span>
+                                <input class="input-checkbox" type="checkbox" name="u-address" value="{{eventSubscription.users.update}}">
+                                UPDATE
+                            </span>
+                            <span>
+                                <input class="input-checkbox" type="checkbox" name="d-address" value="{{eventSubscription.users.delete}}">
+                                DELETE
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row align-items-center justify-content-between pt-3">
+                        <div class="label-input col-md-4 col-sm-3">Clients</div>
+                        <div class="col-8 row justify-content-between">
+                            <span>
+                                <input class="input-checkbox" type="checkbox" name="c-client" value="{{eventSubscription.users.create}}">
+                                CREATE
+                            </span>
+                            <span>
+                                <input class="input-checkbox" type="checkbox" name="u-client" value="{{eventSubscription.users.update}}">
+                                UPDATE
+                            </span>
+                            <span>
+                                <input class="input-checkbox" type="checkbox" name="d-client" value="{{eventSubscription.users.delete}}">
+                                DELETE
+                            </span>
+                        </div>
                     </div>
                 {{/if}}
                 {{/if}}

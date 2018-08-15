@@ -36,6 +36,9 @@ router.post('/add', async function (req, res) {
 
 router.post('/edit/:id', cel.ensureLoggedIn('/login'),
     async function (req, res) {
+        console.log (req.params)
+        console.log (req.body)
+        process.exit (1)
         try {
             let clientId = parseInt(req.params.id)
             let options = {
