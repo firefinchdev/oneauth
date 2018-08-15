@@ -12,9 +12,8 @@ const {
 } =require('../../controllers/clients');
 
 const {
-    createEventSubscription,
-    updateEventSubscription,
-    findAllEventSubsciptions
+    createEventSubscriptionBulk,
+    deleteEventSubscription
 } = require ('../../controllers/event_subscriptions');
 
 function getEvent (id, model, type) {
@@ -65,10 +64,9 @@ router.post('/edit/:id', cel.ensureLoggedIn('/login'),
             if (req.body.webhookurl && isURL(req.body.webhookurl)){
                 options.webhookURL = req.body.webhookurl
             }
-            // await updateClient(options, clientId)
+            await updateClient(options, clientId)
 
-            // TODO: first delete all records for that client then insert them again as per update
-
+            await deleteEventSubscription (req.params.id)
 
             let event_subscription = []
             // --------------------- User ------------------------------ //
@@ -120,7 +118,8 @@ router.post('/edit/:id', cel.ensureLoggedIn('/login'),
 
             console.log (event_subscription)
 
-            // TODO : call the controller function from event_subscription controller
+            await createEventSubscriptionBulk (event_subscription)
+
             res.redirect('/clients/' + clientId)
         } catch (error) {
             console.error(error)
