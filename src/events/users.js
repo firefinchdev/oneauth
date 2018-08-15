@@ -8,7 +8,12 @@ function eventUserUpdated (userId) {
 
 }
 
+function eventUserDeleted (userId) {
+
+}
+
 module.exports = {
   eventUserCreated,
-  eventUserUpdated
+  eventUserUpdated,
+  eventUserDeleted
 }

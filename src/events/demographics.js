@@ -8,7 +8,12 @@ function eventDemgraphicUpdated (demoId, userId) {
 
 }
 
+function eventDemgraphicDeleted (demoId, userId) {
+
+}
+
 module.exports = {
   eventDemgraphicCreated,
-  eventDemgraphicUpdated
+  eventDemgraphicUpdated,
+  eventDemgraphicDeleted
 }
