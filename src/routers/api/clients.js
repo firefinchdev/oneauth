@@ -11,6 +11,20 @@ const {
     updateClient
 } =require('../../controllers/clients');
 
+const {
+    createEventSubscription,
+    updateEventSubscription,
+    findAllEventSubsciptions
+} = require ('../../controllers/event_subscriptions');
+
+function getEvent (id, model, type) {
+    return {
+        clientId: id,
+        model: model,
+        type: type
+    }
+}
+
 router.post('/add', async function (req, res) {
     if (!req.user) {
         return res.status(403).send("Only logged in users can make clients")
@@ -36,9 +50,6 @@ router.post('/add', async function (req, res) {
 
 router.post('/edit/:id', cel.ensureLoggedIn('/login'),
     async function (req, res) {
-        console.log (req.params)
-        console.log (req.body)
-        process.exit (1)
         try {
             let clientId = parseInt(req.params.id)
             let options = {
@@ -51,13 +62,65 @@ router.post('/edit/:id', cel.ensureLoggedIn('/login'),
             if(req.user.role === 'admin'){
                 options.trustedClient = req.body.trustedClient
             }
-              if (req.body.webhookurl && isURL(req.body.webhookurl)){
+            if (req.body.webhookurl && isURL(req.body.webhookurl)){
                 options.webhookURL = req.body.webhookurl
-              }
-            await updateClient(options, clientId)
-            if(req.body.user_create) {
-
             }
+            // await updateClient(options, clientId)
+
+            // TODO: first delete all records for that client then insert them again as per update
+
+
+            let event_subscription = []
+            // --------------------- User ------------------------------ //
+            if (req.body.cUser) {
+                event_subscription.push (getEvent (req.params.id, 'user', 'create'))
+            }
+            if (req.body.uUser) {
+                event_subscription.push (getEvent (req.params.id, 'user', 'update'))
+            }
+            if (req.body.dUser) {
+                event_subscription.push (getEvent (req.params.id, 'user', 'delete'))
+            }
+
+            // --------------------- Demographics ------------------------------ //
+
+            if (req.body.cDemographics) {
+                event_subscription.push (getEvent (req.params.id, 'demographic', 'create'))
+            }
+            if (req.body.uDemographics) {
+                event_subscription.push (getEvent (req.params.id, 'demographic', 'update'))
+            }
+            if (req.body.dDemographics) {
+                event_subscription.push (getEvent (req.params.id, 'demographic', 'delete'))
+            }
+
+            // --------------------- Address ------------------------------ //
+
+            if (req.body.cAddress) {
+                event_subscription.push (getEvent (req.params.id, 'address', 'create'))
+            }
+            if (req.body.uAddress) {
+                event_subscription.push (getEvent (req.params.id, 'address', 'update'))
+            }
+            if (req.body.dAddress) {
+                event_subscription.push (getEvent (req.params.id, 'address', 'delete'))
+            }
+
+            // --------------------- Client ------------------------------ //
+
+            if (req.body.cClient) {
+                event_subscription.push (getEvent (req.params.id, 'client', 'create'))
+            }
+            if (req.body.uClient) {
+                event_subscription.push (getEvent (req.params.id, 'client', 'update'))
+            }
+            if (req.body.dClient) {
+                event_subscription.push (getEvent (req.params.id, 'client', 'delete'))
+            }
+
+            console.log (event_subscription)
+
+            // TODO : call the controller function from event_subscription controller
             res.redirect('/clients/' + clientId)
         } catch (error) {
             console.error(error)
