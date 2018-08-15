@@ -170,6 +170,13 @@ Company.hasMany(Demographic)
 Demographic.belongsTo(Branch)
 Branch.hasMany(Demographic)
 
+const EventSubscription = db.define('event_subscription', {
+  id: {type: Sequelize.DataTypes.BIGINT, primaryKey: true, autoIncrement: true},
+  clientId: {type: Sequelize.DataTypes.BIGINT, references: 'clients'},
+  model: {type: Sequelize.DataTypes.ENUM(User, Client, Address, Demographic)},
+  type: {type: Sequelize.DataTypes.ENUM('create', 'update', 'delete')}
+})
+
 if (!process.env.ONEAUTH_DB_NO_SYNC) {
     db.sync({
         alter: process.env.ONEAUTH_ALTER_TABLE || false,
@@ -184,7 +191,7 @@ module.exports = {
     models: {
         User, UserLocal, UserFacebook, UserTwitter, UserGithub, UserGoogle,
         UserLinkedin, UserLms, Client, GrantCode, AuthToken, Resetpassword, Verifyemail,
-        Demographic, Address, College, Company, Branch, State, Country
+        Demographic, Address, College, Company, Branch, State, Country, EventSubscription
     },
     db
 }
