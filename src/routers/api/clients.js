@@ -70,53 +70,51 @@ router.post('/edit/:id', cel.ensureLoggedIn('/login'),
 
             let event_subscription = []
             // --------------------- User ------------------------------ //
-            if (req.body.cUser) {
+            if (req.body.event_c_user) {
                 event_subscription.push (getEvent (req.params.id, 'user', 'create'))
             }
-            if (req.body.uUser) {
+            if (req.body.event_u_user) {
                 event_subscription.push (getEvent (req.params.id, 'user', 'update'))
             }
-            if (req.body.dUser) {
+            if (req.body.event_d_user) {
                 event_subscription.push (getEvent (req.params.id, 'user', 'delete'))
             }
 
             // --------------------- Demographics ------------------------------ //
 
-            if (req.body.cDemographics) {
+            if (req.body.event_c_demographics) {
                 event_subscription.push (getEvent (req.params.id, 'demographic', 'create'))
             }
-            if (req.body.uDemographics) {
+            if (req.body.event_u_demographics) {
                 event_subscription.push (getEvent (req.params.id, 'demographic', 'update'))
             }
-            if (req.body.dDemographics) {
+            if (req.body.event_d_demographics) {
                 event_subscription.push (getEvent (req.params.id, 'demographic', 'delete'))
             }
 
             // --------------------- Address ------------------------------ //
 
-            if (req.body.cAddress) {
+            if (req.body.event_c_address) {
                 event_subscription.push (getEvent (req.params.id, 'address', 'create'))
             }
-            if (req.body.uAddress) {
+            if (req.body.event_u_address) {
                 event_subscription.push (getEvent (req.params.id, 'address', 'update'))
             }
-            if (req.body.dAddress) {
+            if (req.body.event_d_address) {
                 event_subscription.push (getEvent (req.params.id, 'address', 'delete'))
             }
 
             // --------------------- Client ------------------------------ //
 
-            if (req.body.cClient) {
+            if (req.body.event_c_client) {
                 event_subscription.push (getEvent (req.params.id, 'client', 'create'))
             }
-            if (req.body.uClient) {
+            if (req.body.event_u_client) {
                 event_subscription.push (getEvent (req.params.id, 'client', 'update'))
             }
-            if (req.body.dClient) {
+            if (req.body.event_d_client) {
                 event_subscription.push (getEvent (req.params.id, 'client', 'delete'))
             }
-
-            console.log (event_subscription)
 
             await createEventSubscriptionBulk (event_subscription)
 
