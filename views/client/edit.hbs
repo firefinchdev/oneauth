@@ -30,6 +30,98 @@
                     <div class="label-input col-md-4 col-sm-3">Webhook Url</div>
                     <input type="url" class="input-text col-8" placeholder="Webhook URL" name="webhookurl" value="{{client.webhookURL}}"/>
                 </div>
+                {{#if client.trusted}}
+                {{#if client.webhookURL}}
+                    <div>
+                            <table>
+                                <tr>
+                                    <th>Users</th>
+                                    <th>Demographics</th>
+                                    <th>Addresses</th>
+                                    <th>Clients</th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>
+                                            <input type="checkbox" name="c-user" value="{{eventSubscription.users.create}}">
+                                            CREATE
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            <input type="checkbox" name="c-demographic" value="{{eventSubscription.demographics.create}}">
+                                            CREATE
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            <input type="checkbox" name="c-address" value="{{eventSubscription.address.create}}">
+                                            CREATE
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            <input type="checkbox" name="c-client" value="{{eventSubscription.clients.create}}">
+                                            CREATE
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>
+                                            <input type="checkbox" name="u-user" value="{{eventSubscription.users.update}}">
+                                            UPDATE
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            <input type="checkbox" name="u-demographic" value="{{eventSubscription.demographics.update}}">
+                                            UPDATE
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            <input type="checkbox" name="u-address" value="{{eventSubscription.address.update}}">
+                                            UPDATE
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            <input type="checkbox" name="u-client" value="{{eventSubscription.clients.update}}">
+                                            UPDATE
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>
+                                            <input type="checkbox" name="d-user" value="{{eventSubscription.users.delete}}">
+                                            DELETE
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            <input type="checkbox" name="d-demographic" value="{{eventSubscription.demographics.delete}}">
+                                            DELETE
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            <input type="checkbox" name="d-address" value="{{eventSubscription.address.delete}}">
+                                            DELETE
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            <input type="checkbox" name="d-client" value="{{eventSubscription.clients.delete}}">
+                                            DELETE
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                    </div>
+                {{/if}}
+                {{/if}}
 
                 {{#ifeq val=userRole expected="admin"}}
                     <div class="row no-gutters align-items-center justify-content-between detail-row">
