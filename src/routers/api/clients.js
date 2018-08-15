@@ -48,8 +48,8 @@ router.post('/edit/:id', cel.ensureLoggedIn('/login'),
             if(req.user.role === 'admin'){
                 options.trustedClient = req.body.trustedClient
             }
-              if (req.body.webhookurl && isURL(req.body.webhookurl)){
-                options.webhookURL = req.body.webhookurl
+              if (req.body.webhookURL && isURL(req.body.webhookURL)){
+                options.webhookURL = req.body.webhookURL
               }
             await updateClient(options, clientId)
             res.redirect('/clients/' + clientId)
