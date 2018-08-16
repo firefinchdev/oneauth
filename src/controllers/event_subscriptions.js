@@ -9,11 +9,13 @@ function deleteEventSubscription(id) {
   });
 }
 
-function findAllEventSubscription(id) {
+function findAllEventSubscription(id, filterArgs) {
+  const filter = {
+    where: filterArgs || {}
+  }
+  filter.where.clientId = id
   return EventSubscription.findAll({
-    where: { 
-      clientId: id 
-    }
+    where: filter
   });
 }
 

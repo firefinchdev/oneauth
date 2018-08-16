@@ -1,4 +1,4 @@
-const { models } = require("../db/models");
+const { EventSubscription, User, Client } = require("../db/models");
 
 function eventDemgraphicCreated (demoId, userId) {
 
