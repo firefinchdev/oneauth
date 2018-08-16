@@ -1,9 +1,19 @@
 const { models } = require("../db/models");
 
+const {
+  eventDemgraphicCreated,
+  eventDemgraphicUpdated,
+  eventDemgraphicDeleted
+} =require('../events/demographics');
+
 function findOrCreateDemographic(userId) {
   return models.Demographic.findCreateFind({
     where: { userId: userId },
     include: [models.Address]
+  }).then(([demographic, created]) => {
+    if (created) {
+      eventDemgraphicCreated(demographic.get().id, userId)
+    }
   });
 }
 

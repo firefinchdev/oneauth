@@ -1,6 +1,12 @@
 const { User } = require("../db/models").models;
 const sequelize = require('sequelize');
 
+const {
+  eventUserCreated,
+  eventUserUpdated,
+  eventUserDeleted
+} =require('../events/users');
+
 function findUserById(id, includes) {
   return User.findOne({
     where: { id },
@@ -14,12 +20,19 @@ function findUserByParams(params) {
 
 function createUserLocal(params, pass, includes) {
   return models.UserLocal.create({user: params, password: pass}, {include: includes})
+    .then((user) => {
+      eventUserCreated(user.get().id)
+      return user
+    })
 }
 
 function updateUser(userid, newValues) {
   return User.update(newValues, {
     where: { id: userid },
     returning: true
+  }).then((user) => {
+    eventUserUpdated(userid)
+    return user
   });
 }
 

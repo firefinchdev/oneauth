@@ -11,9 +11,6 @@ const {
     createClient,
     updateClient
 } =require('../../controllers/clients');
-const {
-  eventUserCreated
-} =require('../../events/users');
 
 const {
     createEventSubscriptionBulk,
@@ -123,8 +120,6 @@ router.post('/edit/:id', cel.ensureLoggedIn('/login'),
             }
 
             await createEventSubscriptionBulk (event_subscription)
-
-            eventUserCreated(12541)
 
             res.redirect('/clients/' + clientId)
         } catch (err) {

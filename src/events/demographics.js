@@ -1,19 +1,49 @@
-const { EventSubscription, User, Client } = require("../db/models");
+const { webhookPOST, getWebhooks } = require("./eventHelper")
 
-function eventDemgraphicCreated (demoId, userId) {
-
+function eventDemographicCreated (demoId, userId) {
+  getWebhooks(userId, 'demographic', 'create')
+    .then((webhookURLs) => {
+      webhookPOST(webhookURLs, {
+        type: "CREATED",
+        model: "user",
+        success: true,
+        id: demoId,
+        userId: userId
+      })
+    })
+    .catch(e => console.error('eventDemographicCreate', e))
 }
 
-function eventDemgraphicUpdated (demoId, userId) {
-
+function eventDemographicUpdated (demoId, userId) {
+  getWebhooks(userId, 'demographic', 'update')
+    .then((webhookURLs) => {
+      webhookPOST(webhookURLs, {
+        type: "UPDATED",
+        model: "user",
+        success: true,
+        id: demoId,
+        userId: userId
+      })
+    })
+    .catch(e => console.error('eventDemographicUpdate', e))
 }
 
-function eventDemgraphicDeleted (demoId, userId) {
-
+function eventDemographicDeleted (demoId, userId) {
+  getWebhooks(userId, 'demographic', 'delete')
+    .then((webhookURLs) => {
+      webhookPOST(webhookURLs, {
+        type: "DELETED",
+        model: "user",
+        success: true,
+        id: demoId,
+        userId: userId
+      })
+    })
+    .catch(e => console.error('eventDemographicDelete', e))
 }
 
 module.exports = {
-  eventDemgraphicCreated,
-  eventDemgraphicUpdated,
-  eventDemgraphicDeleted
+  eventDemographicCreated,
+  eventDemographicUpdated,
+  eventDemographicDeleted
 }
