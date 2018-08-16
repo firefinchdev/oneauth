@@ -14,9 +14,7 @@ function findAllEventSubscription(id, filterArgs) {
     where: filterArgs || {}
   }
   filter.where.clientId = id
-  return EventSubscription.findAll({
-    where: filter
-  });
+  return EventSubscription.findAll(filter);
 }
 
 function createEventSubscriptionBulk (options) {
