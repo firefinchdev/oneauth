@@ -48,14 +48,14 @@ router.post('/', makeGaEvent('submit', 'form', 'signup'), async (req, res) => {
 
         const passhash = await passutils.pass2hash(req.body.password)
         const query = {
-            username: req.body.username,
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            email: req.body.email,
-            demographic: {
-                branchId: req.body.branchId,
-                collegeId: req.body.collegeId,
-            }
+          username: req.body.username,
+          firstname: req.body.firstname,
+          lastname: req.body.lastname,
+          email: req.body.email,
+          demographic: {
+            branchId: req.body.branchId,
+            collegeId: req.body.collegeId,
+          }
         }
 
           let includes = [{model: models.User, include: [models.Demographic]}]

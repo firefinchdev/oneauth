@@ -20,31 +20,29 @@ const {
   findAllClients,
   findAllClientsByUserId
 } = require ('../controllers/clients');
-function eventUserCreated (userId) {
-  // find all EventSubscriptions that exist for {user, created}
-  // make a POST request to all the webhookURL for all such clients
+
+function getWebhooks(userId, model, type) {
   return findAllClientsByUserId(+userId)
-    .then(clients => clients.map(client => {
+    .then(clients => clients.map(async client => {
       return {
         client: client,
-        eventSubscriptions: findAllEventSubscription(client, {model: 'user'})
+        eventSubscriptions: await findAllEventSubscription(client, {model: model, type: type})
       }
     }))
     .then(clientWrappers => clientWrappers.reduce((clientArr, acc) => [...clientArr, ...acc], []))
-    .then(clientWrappers => clientWrappers.filter((clientWrapper => {
-      let flag = false
-      clientWrapper.eventSubscriptions.map((eventSubscription => {
-        if (eventSubscription.model === 'user' && eventSubscription.type === 'create') {
-          flag = true
-        }
-      }))
-      return flag
-    })))
-    .then((clientWrappers) => {
-      clientWrappers.forEach((clientWrapper => {
+    .then(clientWrappers => clientWrappers.map(clientWrapper => clientWrapper.client.webhookURL))
+}
+
+function eventUserCreated (userId) {
+  // find all EventSubscriptions that exist for {user, created}
+  // make a POST request to all the webhookURL for all such clients
+  getWebhooks(userId)
+    .then((webhookURLs) => {
+      webhookURLs.forEach((webhookURL => {
+        console.log('MEOW', webhookURL);
         request({
           method: 'POST',
-          uri: clientWrapper.client.webhookURL,
+          uri: 'localhost:2929/',
           body: {
             type: "CREATED",
             model: "user",
@@ -52,6 +50,10 @@ function eventUserCreated (userId) {
             id: userId,
             userId: userId
           }
+        }).then(parsedBody => {
+          console.log(parsedBody)
+        }).catch(err => {
+          console.error(err)
         })
       }))
     })
