@@ -3,6 +3,7 @@
  *
  * This is the /api/v1/clients path
  */
+const Raven = require('raven') 
 const router = require('express').Router()
 const cel = require('connect-ensure-login')
 const { isURL } = require('../../utils/urlutils')
@@ -43,7 +44,9 @@ router.post('/add', async function (req, res) {
         const clientid = await createClient(options, req.user.id)
         res.redirect('/clients/' + clientid.id)
     } catch (error) {
-        console.log(error)
+        Raven.captureException(err)
+        req.flash('error', 'Could not create client')
+        res.redirect('/users/me')
     }
 })
 
@@ -119,8 +122,10 @@ router.post('/edit/:id', cel.ensureLoggedIn('/login'),
             await createEventSubscriptionBulk (event_subscription)
 
             res.redirect('/clients/' + clientId)
-        } catch (error) {
-            console.error(error)
+        } catch (err) {
+            Raven.captureException(err)
+            req.flash('error', 'Could not update client')
+            res.redirect('/users/me')
         }
     })
 
