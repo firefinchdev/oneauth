@@ -60,7 +60,6 @@ router.post('/', makeGaEvent('submit', 'form', 'signup'), async (req, res) => {
 
           let includes = [{model: models.User, include: [models.Demographic]}]
           const user = await createUserLocal(query, passhash, includes)
-
           mail.welcomeEmail(user.user.dataValues)
           res.redirect('/login')
 
