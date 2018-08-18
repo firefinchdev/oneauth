@@ -87,25 +87,31 @@ router.get('/:id/edit',
             }
 
             eventSubscription.forEach (event => {
-                if (event.model === 'user') {
+                switch (event.model) {
+                  case 'user': {
                     if (event.type === 'create') event_subscription.cUser = '1'
                     else if (event.type === 'update') event_subscription.uUser = '1'
                     else if (event.type === 'delete') event_subscription.dUser = '1'
-                }
-                else if (event.model === 'demographic') {
+                    break
+                  }
+                  case 'demographic': {
                     if (event.type === 'create') event_subscription.cDemographic = '1'
                     if (event.type === 'update') event_subscription.uDemographic = '1'
                     if (event.type === 'delete') event_subscription.dDemographic = '1'
-                }
-                else if (event.model === 'address') {
+                    break
+                  }
+                  case 'address': {
                     if (event.type === 'create') event_subscription.cAddress = '1'
                     if (event.type === 'update') event_subscription.uAddress = '1'
                     if (event.type === 'delete') event_subscription.dAddress = '1'
-                }
-                else if (event.model === 'client') {
+                    break
+                  }
+                  case 'client': {
                     if (event.type === 'create') event_subscription.cClient = '1'
                     if (event.type === 'update') event_subscription.uClient = '1'
                     if (event.type === 'delete') event_subscription.dClient = '1'
+                    break
+                  }
                 }
             })
 
