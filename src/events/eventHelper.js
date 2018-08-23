@@ -1,3 +1,4 @@
+const Raven = require('raven')
 const request = require('request-promise')
 const {
   findAllEventSubscription
@@ -23,7 +24,7 @@ function getWebhooks(userId, model, type) {
     })))
     .then(clientWrappers => clientWrappers.reduce((acc, clientArr) => [...clientArr, ...acc], []))
     .then(clientWrappers => clientWrappers.map(clientWrapper => clientWrapper.client.webhookURL))
-    .catch(e => console.error('getWebhooks', e))
+    .catch(e => Raven.captureException(e))
 }
 
 function webhookPOST(webhookURLs, options) {
@@ -38,7 +39,7 @@ function webhookPOST(webhookURLs, options) {
     }).then(parsedBody => {
       console.log(parsedBody)
     }).catch(err => {
-      console.error('webhookPOST', err)
+      Raven.captureException(err)
     })
   }))
 }

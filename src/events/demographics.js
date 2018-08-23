@@ -1,3 +1,4 @@
+const Raven = require('raven')
 const { webhookPOST, getWebhooks } = require("./eventHelper")
 
 function eventDemographicCreated (demoId, userId) {
@@ -11,7 +12,7 @@ function eventDemographicCreated (demoId, userId) {
         userId: userId
       })
     })
-    .catch(e => console.error('eventDemographicCreate', e))
+    .catch(e => Raven.captureException(e))
 }
 
 function eventDemographicUpdated (demoId, userId) {
@@ -25,7 +26,7 @@ function eventDemographicUpdated (demoId, userId) {
         userId: userId
       })
     })
-    .catch(e => console.error('eventDemographicUpdate', e))
+    .catch(e => Raven.captureException(e))
 }
 
 function eventDemographicDeleted (demoId, userId) {
@@ -39,7 +40,7 @@ function eventDemographicDeleted (demoId, userId) {
         userId: userId
       })
     })
-    .catch(e => console.error('eventDemographicDelete', e))
+    .catch(e => Raven.captureException(e))
 }
 
 module.exports = {
