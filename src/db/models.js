@@ -35,7 +35,7 @@ const User = db.define('user', {
     gender: {type:Sequelize.DataTypes.ENUM('MALE','FEMALE','UNDISCLOSED'),default:'UNDISCLOSED'},
     photo: Sequelize.DataTypes.STRING,
     email: Sequelize.DataTypes.STRING,
-    mobile_number: {type: Sequelize.DataTypes.STRING, validate: {len: [10, 10]}},
+    mobile_number: {type: Sequelize.DataTypes.STRING},
     role: {type: Sequelize.DataTypes.ENUM('admin', 'employee', 'intern'), allowNull: true},
     verifiedemail: {type: Sequelize.DataTypes.STRING, defaultValue: null, unique: true, allowNull: true}
 }, {
@@ -127,8 +127,8 @@ Client.hasMany(AuthToken)
 
 const Demographic = db.define('demographic', {})
 
-Demographic.belongsTo(User)
-User.hasOne(Demographic)
+Demographic.belongsTo(User)     // Demographic has userId
+User.hasOne(Demographic)        // One user has only one demographic, so userId is UNIQUE
 
 const Address = db.define('address', definitions.demographics.address, {
     indexes: [

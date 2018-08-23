@@ -1,4 +1,4 @@
-const { User } = require("../db/models").models;
+const { User, UserLocal } = require("../db/models").models;
 const sequelize = require('sequelize');
 
 const {
@@ -15,11 +15,11 @@ function findUserById(id, includes) {
 }
 
 function findUserByParams(params) {
-  return models.User.findOne({where: params})
+  return User.findOne({where: params})
 }
 
 function createUserLocal(params, pass, includes) {
-  return models.UserLocal.create({user: params, password: pass}, {include: includes})
+  return UserLocal.create({user: params, password: pass}, {include: includes})
     .then((user) => {
       eventUserCreated(user.get().id)
       return user
